@@ -1135,7 +1135,6 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jTabbedPane1StateChanged
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-	// TODO pytanie o nazwe pliku
 	JFileChooser chooser = new JFileChooser();
 	chooser.setMultiSelectionEnabled(false);
 	chooser.showSaveDialog(this);
@@ -1169,11 +1168,10 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-	// TODO add your handling code here:
 	JOptionPane.showMessageDialog(this,
 	    "<html><font size=6>JUltima Online</font</html>\n" +
 	    "Project is licensed under GPLv3, but it's allowed\n" +
-	    "to use closed source Cheffe's library gmae.dll.\n\n" +
+	    "to use closed source Cheffe's library game.dll.\n\n" +
 	    "Libraries used in project: \n" +
 	    "* JSyntaxPane\n" +
 	    "* Java Native Acces\n" +
