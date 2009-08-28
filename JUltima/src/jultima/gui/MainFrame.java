@@ -191,7 +191,7 @@ public class MainFrame extends javax.swing.JFrame {
 	}
     }
 
-    int getTabIndex(String scriptName) {
+    public int getTabIndex(String scriptName) {
 	for(int i=0; i < jTabbedPane1.getTabCount(); i++) {
 	    if(jTabbedPane1.getTitleAt(i).equals(scriptName)) {
 		return i;
@@ -200,7 +200,7 @@ public class MainFrame extends javax.swing.JFrame {
 	return -1;
     }
 
-    void runScript(String scriptName) {
+    public void runScript(String scriptName) {
 	for(int i=0; i < jTabbedPane1.getTabCount(); i++) {
 	    if(jTabbedPane1.getTitleAt(i).equals(scriptName)) {
 		runScript(i);
@@ -213,7 +213,7 @@ public class MainFrame extends javax.swing.JFrame {
      * Runs script opened at specified tab
      * @param selectedIndex Tab number containig the script
      */
-    void runScript(final int selectedIndex) {
+    public void runScript(final int selectedIndex) {
 	TabComponent tabComp = (TabComponent)
 		jTabbedPane1.getTabComponentAt(selectedIndex);
 	if(tabComp.thread != null) {
@@ -271,7 +271,7 @@ public class MainFrame extends javax.swing.JFrame {
      * @param selectedIndex Tab index
      * @param  run Tells if you want to run script after compilation
      */
-    private void compileScript(final int selectedIndex, final boolean run) {
+    public void compileScript(final int selectedIndex, final boolean run) {
 	TabComponent tabComp = (TabComponent)
 		jTabbedPane1.getTabComponentAt(selectedIndex);
 	if(!tabComp.saved)
@@ -319,17 +319,17 @@ public class MainFrame extends javax.swing.JFrame {
 	}
     }
 
-    void stopScript(int selectedIndex) {
+    public void stopScript(int selectedIndex) {
 	TabComponent tabComp = (TabComponent)
 		jTabbedPane1.getTabComponentAt(selectedIndex);
+	tabComp.setState(TabComponent.STOPPED);
 	if(tabComp.thread != null) {
 	    tabComp.thread.stop();
 	    tabComp.thread = null;
 	}
-	tabComp.setState(TabComponent.STOPPED);
     }
 
-    void pauseScript(int selectedIndex) {
+    public void pauseScript(int selectedIndex) {
 	TabComponent tabComp = (TabComponent)
 		jTabbedPane1.getTabComponentAt(selectedIndex);
 	tabComp.thread.suspend();
@@ -421,12 +421,18 @@ public class MainFrame extends javax.swing.JFrame {
 	    PropertySheetPanel prop = propSheet;
 	    @Override
 	    public void run() {
+		Property[] pArr;
+		String s;
+
+		GameDLL gameDLL = new GameDLL();
+		
+		
 		while(true) {
 
-		    Property[] pArr = (Property[]) prop.getProperties();
-		    GameDLL gameDLL = new GameDLL();
-		    gameDLL.open();
+		    pArr = (Property[]) prop.getProperties();
 
+		    
+		    gameDLL.open();
 		    gameDLL.setTop(0);
 		    gameDLL.pushStrVal("SetVar");
 		    gameDLL.pushStrVal("CliNr");
@@ -443,7 +449,7 @@ public class MainFrame extends javax.swing.JFrame {
 			}
 
 			if(p.getType() == String.class) {
-			    String s = gameDLL.getString(1);
+			    s = gameDLL.getString(1);
 			    if(!s.equals(p.getValue())) p.setValue(s);
 			} else if (p.getType() == int.class) {
 			    int i = gameDLL.getInteger(1);

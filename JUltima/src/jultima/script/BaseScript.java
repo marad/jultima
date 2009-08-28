@@ -26,6 +26,7 @@ import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jultima.GameDLL;
+import jultima.Main;
 
 /**
  *
@@ -46,14 +47,14 @@ public abstract class BaseScript implements ScriptInterface {
 	gameDLL.close();
     }
 
-    public BaseScript(GameDLL gameDLL) {
-	this.gameDLL = gameDLL;
-    }
-
-    public void setGameDLL(GameDLL gameDLL) {
-	this.gameDLL = gameDLL;
-	setVar("CliNr", 1);
-    }
+//    public BaseScript(GameDLL gameDLL) {
+//	this.gameDLL = gameDLL;
+//    }
+//
+//    public void setGameDLL(GameDLL gameDLL) {
+//	this.gameDLL = gameDLL;
+//	setVar("CliNr", 1);
+//    }
 
     /* *** Returned Data ****/
     public class Property {
@@ -197,6 +198,10 @@ public abstract class BaseScript implements ScriptInterface {
 
     public void macro(int par1) {
 	macro(par1, 0, "");
+    }
+
+    public void pathFind(int x, int y) {
+	pathFind(x, y, -1);
     }
 
     public void pathFind(int x, int y, int z) {
@@ -366,18 +371,48 @@ public abstract class BaseScript implements ScriptInterface {
     }
 
     /**
+     * Waits for target cursor for a while
+     * @param timeout Wait timeout
+     * @return True if target appeared or false if
+     * timeout.
+     */
+    public boolean target(long timeout) {
+	long time = System.currentTimeMillis() + timeout;
+	while(!(Boolean)getVar("TargCurs")) {
+	    if(time < System.currentTimeMillis())
+		return false;
+	}
+	return true;
+    }
+
+    /**
      * Halts script execution
      */
     public void halt() {
-	Thread.currentThread().stop();
+//	Thread.currentThread().stop();
+	int i = Main.mainFrame.getTabIndex(this.getClass().getName());
+	if(i == -1) return;
+	Main.mainFrame.stopScript(i);
     }
 
+    /**
+     * Holds code execution for a while.
+     * @param milis
+     */
     public void sleep(int milis) {
 	try {
 	    Thread.sleep(milis);
 	} catch (InterruptedException ex) {
 	    Logger.getLogger(BaseScript.class.getName()).log(Level.SEVERE, null, ex);
 	}
+    }
+
+    /**
+     * Does the same as sleep
+     * @param millis
+     */
+    public void wait(int millis) {
+	sleep(millis);
     }
 
     /* **** VARIABLE ACCESS **** */

@@ -160,7 +160,7 @@ public class Main {
 //	    }
 	    
 	    mainFrame = new MainFrame(args);
-	    mainFrame.setVisible(true);
+	    mainFrame.setVisible(true);	  
         } catch (Exception ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
